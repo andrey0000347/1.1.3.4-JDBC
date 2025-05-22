@@ -30,12 +30,6 @@ public class Main {
         List<User> users = userServiceImpl.getAllUsers();
         users.forEach(System.out::println);  // выводим всех пользователей
 
-        // Удаление пользователя с ID 1
-        userServiceImpl.removeUserById(1);
-        System.out.println("Пользователи после удаления (ID 1):");
-        users = userServiceImpl.getAllUsers();
-        users.forEach(System.out::println);  // проверяем оставшихся пользователей
-
         // Очищение таблицы
         userServiceImpl.cleanUsersTable();
         System.out.println("Все пользователи после очистки:");
