@@ -10,10 +10,14 @@ public class Util {
     private static final String DB_USERNAME = "root";
     private static final String DB_PASSWORD = "root";
 
+    // Метод для соединения
     public static Connection getConnection() {
         try {
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306/world", "root", "root");
-        } catch (SQLException e) {
+            // JDBC-драйвер
+            Class.forName(DB_DRIVER);
+            //  соединение с базой данных
+            return DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }
