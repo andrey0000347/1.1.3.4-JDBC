@@ -10,6 +10,7 @@ import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
 
+    // Поля
     public static final String createUserTable = "CREATE TABLE IF NOT EXISTS Users" +
             "(id INT AUTO_INCREMENT PRIMARY KEY, " +
             "name VARCHAR(40) NOT NULL, " +
@@ -24,16 +25,17 @@ public class UserDaoJDBCImpl implements UserDao {
 
     private final Connection connection = Util.getConnection();
 
+    // Конструктор
     public UserDaoJDBCImpl() {
     }
 
+    // Методы
     @Override
     public void createUsersTable() {
         try {
             assert connection != null;
             try(Statement statement = connection.createStatement()) {
                 statement.executeUpdate(createUserTable);
-                //connection.commit();
                 System.out.println("Table Users was created");
             }
         } catch (SQLException e) {
@@ -61,7 +63,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 preparedStatement.setString(1, name);
                 preparedStatement.setString(2, lastName);
                 preparedStatement.setByte(3, age);
-                preparedStatement.executeUpdate(); // 0 or 1 what for?
+                preparedStatement.executeUpdate();
 
                 System.out.println("Data save user is done");
             }
@@ -71,12 +73,9 @@ public class UserDaoJDBCImpl implements UserDao {
         }
     }
 
-
     @Override
     public void removeUserById(long id) {
-        try (PreparedStatement statement = connection
-                .prepareStatement(removeUserByIdTable)
-        ) {
+        try (PreparedStatement statement = connection.prepareStatement(removeUserByIdTable)) {
             statement.setLong(1, id);
             statement.executeUpdate();
             System.out.println("User's raw was removed");
@@ -93,7 +92,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             assert connection != null;
             try (Statement statement = connection.createStatement();
-                     ResultSet resultSet = statement.executeQuery(getAllUsersTable)) { // Закрытие ResultSet
+                     ResultSet resultSet = statement.executeQuery(getAllUsersTable)) {
 
                 while (resultSet.next()) {
                     User user = new User();
@@ -120,7 +119,6 @@ public class UserDaoJDBCImpl implements UserDao {
             try(Statement statement = connection.createStatement()) {
                 statement.executeUpdate(cleanUsersTableTable);
                 System.out.println("Table was cleaned up! ");
-
             }
         } catch (SQLException ex) {
             System.out.println("cleanUsersTable Error. Table wasn't cleaned");
